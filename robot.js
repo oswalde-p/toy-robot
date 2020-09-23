@@ -51,6 +51,11 @@ class Robot {
         if (!TURNING_DIRECTIONS[leftOrRight]) throw new Error('Unknown direction', leftOrRight)
         this.heading = getNextHeading(leftOrRight, this.heading)
     }
+
+    report() {
+        if (!this.heading) return
+        console.log(`${this.x},${this.y},${this.heading}`)
+    }
 }
 
 module.exports = Robot

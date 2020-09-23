@@ -11,7 +11,17 @@ const Robot = proxyquire('../../robot.js', {
     './utils': utilStub
 })
 
-test('Constructor creates new Robot with correct attributes', t => {
+test.before(() => {
+    sinon.spy(console, 'log')
+})
+
+test.beforeEach(() => {
+    console.log.resetHistory()
+    utilStub.getNextHeading.resetHistory()
+    utilStub.isValidPlace.resetHistory()
+})
+
+test.serial('Constructor creates new Robot with correct attributes', t => {
     const robot = new Robot()
     t.is(robot.x, null)
     t.is(robot.y, null)
@@ -65,7 +75,6 @@ test.serial('.place() checks if position is valid', t => {
     const robot = new Robot()
     robot.place(1, 1, 'NORTH')
     t.is(utilStub.isValidPlace.calledOnce, true)
-    utilStub.isValidPlace.resetHistory()
 })
 
 test('.place() has no effect if position is invalid', t => {
@@ -91,7 +100,6 @@ test.serial('.move() checks if new position is valid', t => {
 
     robot.move()
     t.is(utilStub.isValidPlace.callCount, 2)
-    utilStub.isValidPlace.resetHistory()
 })
 
 test('.move() has no effect if new position is invalid', t => {
@@ -150,7 +158,6 @@ test.serial('.turn("LEFT") updates heading correctly', t => {
     t.is(utilStub.getNextHeading.calledOnce, true)
     t.is(utilStub.getNextHeading.calledWith('LEFT', 'NORTH'), true)
     t.is(robot.heading, 'SOUTH') // looks weird, but stub always returns south
-    utilStub.getNextHeading.resetHistory()
 })
 
 test.serial('.turn("RIGHT") updates heading correctly', t => {
@@ -161,7 +168,6 @@ test.serial('.turn("RIGHT") updates heading correctly', t => {
     t.is(utilStub.getNextHeading.calledOnce, true)
     t.is(utilStub.getNextHeading.calledWith('RIGHT', 'NORTH'), true)
     t.is(robot.heading, 'SOUTH') // looks weird, but stub always returns south
-    utilStub.getNextHeading.resetHistory()
 })
 
 test('.turn() throws error if missing arg', t => {
@@ -176,4 +182,23 @@ test('.turn() has no effect if robot hasn\'t been placed', t => {
     t.is(robot.x, null)
     t.is(robot.y, null)
     t.is(robot.heading, null)
+})
+
+test('.report() doesn\'t  log anything if robot hasn\'t been placed', t => {
+    const robot = new Robot()
+    robot.report()
+    t.is(console.log.notCalled, true)
+})
+
+test('.report() calls console.log with correct argument', t => {
+    const robot = new Robot()
+    robot.x = 1
+    robot.y = 2
+    robot.heading = 'NORTH'
+    robot.report()
+    t.is(console.log.callCount, 1)
+    t.is(console.log.calledWith('1,2,NORTH'), true)
+    t.is(robot.x, 1)
+    t.is(robot.y, 2)
+    t.is(robot.heading, 'NORTH')
 })
