@@ -1,4 +1,18 @@
-const { BOARD_HEIGHT, BOARD_WIDTH } = require('./consts')
+const { BOARD_HEIGHT, BOARD_WIDTH, TURNING_DIRECTIONS } = require('./consts')
+
+
+const getNextHeading = function(leftOrRight, currentHeading) {
+    if (!TURNING_DIRECTIONS[leftOrRight]) throw new Error('Unknown direction', leftOrRight)
+    const orderedHeadings = ['NORTH', 'EAST', 'SOUTH', 'WEST']
+    const currentIndex = orderedHeadings.indexOf(currentHeading)
+    let newIndex = leftOrRight == TURNING_DIRECTIONS.LEFT ? currentIndex - 1 : currentIndex + 1
+    if (newIndex == 4) {
+        newIndex = 0
+    } else if (newIndex == -1) {
+        newIndex = 3
+    }
+    return orderedHeadings[newIndex]
+}
 
 /**
  * Check whether a given coordinate pair is on the board
@@ -15,5 +29,6 @@ const isValidPlace = function({ x, y }){
 }
 
 module.exports = {
+    getNextHeading,
     isValidPlace
 }

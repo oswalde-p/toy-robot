@@ -3,6 +3,7 @@ const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 
 const utilStub = {
+    getNextHeading: sinon.fake.returns('SOUTH'),
     isValidPlace: sinon.fake(({x}) => x >= 0 && x < 5)
 }
 
@@ -93,7 +94,7 @@ test.serial('.move() checks if new position is valid', t => {
     utilStub.isValidPlace.resetHistory()
 })
 
-test('.place() has no effect if new position is invalid', t => {
+test('.move() has no effect if new position is invalid', t => {
     const robot = new Robot()
     robot.place(4, 0, 'EAST')
 
@@ -101,6 +102,14 @@ test('.place() has no effect if new position is invalid', t => {
     t.is(robot.x, 4)
     t.is(robot.y, 0)
     t.is(robot.heading, 'EAST')
+})
+
+test('.move() has no effect if robot hasn\'t been placed', t => {
+    const robot = new Robot()
+    robot.move()
+    t.is(robot.x, null)
+    t.is(robot.y, null)
+    t.is(robot.heading, null)
 })
 
 test('.move() updates position correctly if valid', t => {
@@ -131,4 +140,40 @@ test('.move() updates position correctly if valid', t => {
     robot.move()
     t.is(robot.x, 3)
     t.is(robot.y, 4)
+})
+
+test.serial('.turn("LEFT") updates heading correctly', t => {
+    const robot = new Robot()
+    robot.place(0, 0, 'NORTH')
+
+    robot.turn('LEFT')
+    t.is(utilStub.getNextHeading.calledOnce, true)
+    t.is(utilStub.getNextHeading.calledWith('LEFT', 'NORTH'), true)
+    t.is(robot.heading, 'SOUTH') // looks weird, but stub always returns south
+    utilStub.getNextHeading.resetHistory()
+})
+
+test.serial('.turn("RIGHT") updates heading correctly', t => {
+    const robot = new Robot()
+    robot.place(0, 0, 'NORTH')
+
+    robot.turn('RIGHT')
+    t.is(utilStub.getNextHeading.calledOnce, true)
+    t.is(utilStub.getNextHeading.calledWith('RIGHT', 'NORTH'), true)
+    t.is(robot.heading, 'SOUTH') // looks weird, but stub always returns south
+    utilStub.getNextHeading.resetHistory()
+})
+
+test('.turn() throws error if missing arg', t => {
+    const robot = new Robot()
+    robot.place(0, 0, 'NORTH')
+    t.throws(() => robot.turn())
+})
+
+test('.turn() has no effect if robot hasn\'t been placed', t => {
+    const robot = new Robot()
+    robot.turn()
+    t.is(robot.x, null)
+    t.is(robot.y, null)
+    t.is(robot.heading, null)
 })

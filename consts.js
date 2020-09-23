@@ -6,5 +6,9 @@ module.exports = {
         SOUTH: 'SOUTH',
         EAST: 'EAST',
         WEST: 'WEST'
+    },
+    TURNING_DIRECTIONS: {
+        LEFT: 'LEFT',
+        RIGHT: 'RIGHT'
     }
 }

@@ -69,3 +69,17 @@ test('isValidPlace throws error for incomplete inout', t => {
     const missingX = { y: 0 }
     t.throws(() => utils.isValidPlace(missingX))
 })
+
+test('getNextHeading("LEFT") updates heading correctly', t => {
+    t.is(utils.getNextHeading('LEFT', 'NORTH'), 'WEST')
+    t.is(utils.getNextHeading('LEFT', 'WEST'), 'SOUTH')
+    t.is(utils.getNextHeading('LEFT', 'SOUTH'), 'EAST')
+    t.is(utils.getNextHeading('LEFT', 'EAST'), 'NORTH')
+})
+
+test('getNextHeading("RIGHT") updates heading correctly', t => {
+    t.is(utils.getNextHeading('RIGHT', 'NORTH'), 'EAST')
+    t.is(utils.getNextHeading('RIGHT', 'EAST'), 'SOUTH')
+    t.is(utils.getNextHeading('RIGHT', 'SOUTH'), 'WEST')
+    t.is(utils.getNextHeading('RIGHT', 'WEST'), 'NORTH')
+})

@@ -1,5 +1,5 @@
-const { HEADINGS } = require('./consts')
-const { isValidPlace } = require('./utils')
+const { HEADINGS, TURNING_DIRECTIONS } = require('./consts')
+const { getNextHeading, isValidPlace } = require('./utils')
 
 class Robot {
     constructor() {
@@ -19,6 +19,7 @@ class Robot {
     }
 
     move() {
+        if (!this.heading) return // robot hasn't been placed yet, ignore
         const newPlace = {
             x: this.x,
             y: this.y
@@ -43,6 +44,12 @@ class Robot {
             this.x = newPlace.x
             this.y = newPlace.y
         }
+    }
+
+    turn(leftOrRight) {
+        if (!this.heading) return // robot hasn't been placed yet, ignore
+        if (!TURNING_DIRECTIONS[leftOrRight]) throw new Error('Unknown direction', leftOrRight)
+        this.heading = getNextHeading(leftOrRight, this.heading)
     }
 }
 
