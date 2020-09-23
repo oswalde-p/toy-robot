@@ -2,7 +2,7 @@ const { BOARD_HEIGHT, BOARD_WIDTH, TURNING_DIRECTIONS } = require('./consts')
 
 
 const getNextHeading = function(leftOrRight, currentHeading) {
-    if (!TURNING_DIRECTIONS[leftOrRight]) throw new Error('Unknown direction', leftOrRight)
+    if (!TURNING_DIRECTIONS[leftOrRight]) throw new Error(`Unknown direction "${leftOrRight}"`)
     const orderedHeadings = ['NORTH', 'EAST', 'SOUTH', 'WEST']
     const currentIndex = orderedHeadings.indexOf(currentHeading)
     let newIndex = leftOrRight == TURNING_DIRECTIONS.LEFT ? currentIndex - 1 : currentIndex + 1

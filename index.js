@@ -1,38 +1,38 @@
 const readline = require('readline')
+const Robot = require('./robot')
+const { exit } = require('process')
 
 const lineReader = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
+    input: process.stdin,
+    output: process.stdout
 })
 
-// const running = true
-// while (running) {
-//   lineReader.question('> ', input => {
-//     console.log(input)
-//     lineReader.close()
-//   })
-// }
+const robot = new Robot()
 
 lineReader.on('line', input => {
-//   console.log(input)
-  const [ command, args] = input.split(' ')
-  switch (command) {
-  case 'PLACE':
-    // console.log('placing')
-    break
-  case 'MOVE':
-    // console.log('moving')
-    break
-  case 'LEFT':
-    // console.log('left')
-    break
-  case 'RIGHT':
-    // console.log('right')
-    break
-  case 'REPORT':
-    console.log('0,1,NORTH')
-    break
-  default:
-    console.log('Unknown command received:', command)
-  }
+    const [command, args = ''] = input.split(' ')
+    const [x, y, heading] = args.split(',')
+    switch (command) {
+        case 'PLACE':
+            try {
+                robot.place(Number(x), Number(y), heading)
+            } catch (err) {
+                console.log(`Error: ${err.message}`) // swallow it and let the user re-enter the command
+            }
+            break
+        case 'MOVE':
+            robot.move()
+            break
+        case 'LEFT':
+            robot.turn('LEFT')
+            break
+        case 'RIGHT':
+            robot.turn('RIGHT')
+            break
+        case 'REPORT':
+            robot.report()
+            break
+        default:
+            console.log('Unknown command received:', command)
+    }
 })

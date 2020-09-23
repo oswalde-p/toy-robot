@@ -9,9 +9,9 @@ class Robot {
     }
 
     place(x, y, heading) {
-        if (!Number.isInteger(x)) throw new Error('x must be integer')
-        if (!Number.isInteger(y)) throw new Error('y must be integer')
-        if (!HEADINGS[heading]) throw new Error('Unknown heading', heading)
+        if (!Number.isInteger(x)) throw new Error('x must be an integer')
+        if (!Number.isInteger(y)) throw new Error('y must be an integer')
+        if (!HEADINGS[heading]) throw new Error(`Unknown heading "${heading}"`)
         if (!isValidPlace({x, y})) return
         this.x = x
         this.y = y
@@ -48,7 +48,7 @@ class Robot {
 
     turn(leftOrRight) {
         if (!this.heading) return // robot hasn't been placed yet, ignore
-        if (!TURNING_DIRECTIONS[leftOrRight]) throw new Error('Unknown direction', leftOrRight)
+        if (!TURNING_DIRECTIONS[leftOrRight]) throw new Error(`Unknown direction "${leftOrRight}"`)
         this.heading = getNextHeading(leftOrRight, this.heading)
     }
 
