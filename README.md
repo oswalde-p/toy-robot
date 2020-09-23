@@ -33,10 +33,20 @@ All tests can be run with npm:
 npm test
 ```
 
-## e2e
+**Note:** the tests use some UNIX commands, so they probably won't work on Windows
+
+### e2e
 
 There are some basic "e2e"-like tests written in bash, checking the  output
 of a series of commands. Run them with:
 ```bash
 npm run test:e2e
+```
+
+### unit
+
+Unit tests are written in ava, contained in tests/unit. Run them with
+
+```bash
+npm run test:unit
 ```

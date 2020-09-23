@@ -5,7 +5,7 @@
 # accept it for the sake of readability
 
 echo "e2e test 1:"
-actual=$(node ../index.js < ./case1.txt)
+actual=$(node ../../index.js < ./case1.txt)
 expected=0,1,NORTH
 
 if [[ $actual == $expected ]]; then
@@ -19,7 +19,7 @@ fi
 
 
 echo "e2e test 2:"
-actual=$(node ../index.js < ./case2.txt)
+actual=$(node ../../index.js < ./case2.txt)
 expected=0,0,WEST
 
 if [[ $actual == $expected ]]; then
@@ -33,7 +33,7 @@ fi
 
 
 echo "e2e test 3:"
-actual=$(node ../index.js < ./case3.txt)
+actual=$(node ../../index.js < ./case3.txt)
 expected=3,3,NORTH
 
 if [[ $actual == $expected ]]; then

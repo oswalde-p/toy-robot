@@ -1,17 +1,19 @@
 {
   "name": "toy-robot",
   "version": "1.0.0",
-  "description": "\"a simulation of a toy robot moving on a square tabletop\"",
+  "description": "a simulation of a toy robot moving on a square tabletop",
   "main": "index.js",
   "scripts": {
-    "test": "npm run test:e2e",
-    "test:e2e": "cd tests && /bin/bash e2e.sh",
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:e2e": "cd tests/e2e && /bin/bash e2e.sh",
+    "test:unit": "ava",
     "lint": "eslint .",
     "start": "node index.js"
   },
   "author": "j.s.pursey@gmail.com",
   "license": "ISC",
   "devDependencies": {
+    "ava": "^3.12.1",
     "eslint": "^7.9.0"
   }
 }
