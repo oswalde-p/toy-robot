@@ -3,7 +3,7 @@ const proxyquire = require('proxyquire')
 const sinon = require('sinon')
 
 const utilStub = {
-    isValidPlace: sinon.fake(({x}) => x >= 0)
+    isValidPlace: sinon.fake(({x}) => x >= 0 && x < 5)
 }
 
 const Robot = proxyquire('../../robot.js', {
@@ -81,4 +81,54 @@ test('.place() calls isValidPlace with args in correct order', t => {
     robot.place(0, 1, 'NORTH')
 
     t.is(utilStub.isValidPlace.calledWith({ x: 0, y: 1}), true)
+})
+
+
+test.serial('.move() checks if new position is valid', t => {
+    const robot = new Robot()
+    robot.place(1, 1, 'NORTH')
+
+    robot.move()
+    t.is(utilStub.isValidPlace.callCount, 2)
+    utilStub.isValidPlace.resetHistory()
+})
+
+test('.place() has no effect if new position is invalid', t => {
+    const robot = new Robot()
+    robot.place(4, 0, 'EAST')
+
+    robot.move()
+    t.is(robot.x, 4)
+    t.is(robot.y, 0)
+    t.is(robot.heading, 'EAST')
+})
+
+test('.move() updates position correctly if valid', t => {
+    const robot = new Robot()
+    robot.place(0, 0, 'NORTH')
+
+    robot.move()
+    t.is(robot.x, 0)
+    t.is(robot.y, 1)
+    robot.move()
+    t.is(robot.x, 0)
+    t.is(robot.y, 2)
+
+    robot.place(0, 0, 'EAST')
+
+    robot.move()
+    t.is(robot.x, 1)
+    t.is(robot.y, 0)
+
+    robot.place(4, 4, 'SOUTH')
+
+    robot.move()
+    t.is(robot.x, 4)
+    t.is(robot.y, 3)
+
+    robot.place(4, 4, 'WEST')
+
+    robot.move()
+    t.is(robot.x, 3)
+    t.is(robot.y, 4)
 })

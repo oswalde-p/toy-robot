@@ -17,6 +17,33 @@ class Robot {
         this.y = y
         this.heading = heading
     }
+
+    move() {
+        const newPlace = {
+            x: this.x,
+            y: this.y
+        }
+
+        switch (this.heading) {
+            case HEADINGS.NORTH:
+                newPlace.y++
+                break
+            case HEADINGS.SOUTH:
+                newPlace.y--
+                break
+            case HEADINGS.EAST:
+                newPlace.x++
+                break
+            case HEADINGS.WEST:
+                newPlace.x--
+                break
+        }
+
+        if (isValidPlace(newPlace)) {
+            this.x = newPlace.x
+            this.y = newPlace.y
+        }
+    }
 }
 
 module.exports = Robot
