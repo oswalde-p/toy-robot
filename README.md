@@ -28,7 +28,15 @@ The program then listens for instructions from stdin. Valid commands are:
 
 ## Tests
 
-Tests can be run with npm:
+All tests can be run with npm:
 ```bash
 npm test
+```
+
+## e2e
+
+There are some basic "e2e"-like tests written in bash, checking the  output
+of a series of commands. Run them with:
+```bash
+npm run test:e2e
 ```
