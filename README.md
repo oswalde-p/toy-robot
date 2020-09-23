@@ -4,7 +4,12 @@ A simulation of a robot moving on a square tabletop, implemented in Node.js
 
 ## Running
 
-Start the process:
+First, install dependencies:
+```bash
+npm install
+```
+
+Next, start the process:
 
 ```bash
 npm start
