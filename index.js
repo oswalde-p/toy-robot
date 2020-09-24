@@ -1,6 +1,8 @@
 const readline = require('readline')
-const Robot = require('./robot')
 const { exit } = require('process')
+
+const Robot = require('./robot')
+const { InputError } = require('./errors')
 
 const lineReader = readline.createInterface({
     input: process.stdin,
@@ -17,7 +19,11 @@ lineReader.on('line', input => {
             try {
                 robot.place(Number(x), Number(y), heading)
             } catch (err) {
-                console.log(`Error: ${err.message}`) // swallow it and let the user re-enter the command
+                if (err instanceof InputError) {
+                    return console.log(`InputError: ${err.message}`) // swallow it and let the user re-enter the command
+                }
+                console.error(err)
+                exit(1)
             }
             break
         case 'MOVE':

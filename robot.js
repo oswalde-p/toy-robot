@@ -1,5 +1,6 @@
 const { HEADINGS, TURNING_DIRECTIONS } = require('./consts')
 const { getNextHeading, isValidPlace } = require('./utils')
+const { InputError } = require('./errors')
 
 class Robot {
     constructor() {
@@ -9,9 +10,9 @@ class Robot {
     }
 
     place(x, y, heading) {
-        if (!Number.isInteger(x)) throw new Error('x must be an integer')
-        if (!Number.isInteger(y)) throw new Error('y must be an integer')
-        if (!HEADINGS[heading]) throw new Error(`Unknown heading "${heading}"`)
+        if (!Number.isInteger(x)) throw new InputError('x must be an integer')
+        if (!Number.isInteger(y)) throw new InputError('y must be an integer')
+        if (!HEADINGS[heading]) throw new InputError(`Unknown heading "${heading}"`)
         if (!isValidPlace({x, y})) return
         this.x = x
         this.y = y
