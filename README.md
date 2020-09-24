@@ -18,12 +18,26 @@ npm start
 The program then listens for instructions from stdin. Valid commands are:
 
 - **PLACE X,Y,F:** put the toy robot on the table in position X,Y and facing F, where F is NORTH,
-  SOUTH, EAST or WEST.
+  SOUTH, EAST or WEST. Until the robot is placed, all other commands will be ignored.
 - **MOVE:** move the toy robot one unit forward in the direction it is
   currently facing.
 - **LEFT** and **RIGHT:** rotate the robot 90 degrees in the specified direction
   without changing the position of the robot.
 - **REPORT:** print the current coordinates and heading of the robot to stdout
+
+The board is a 5 x 5 unit grid. Any PLACE or MOVE command that would result in the robot being outside
+of the grid will be ignored.
+
+E.g.
+```
+PLACE 1,2,NORTH
+PLACE 5,2,NORTH
+REPORT // 1,2,NORTH
+
+PLACE 4,4,EAST
+MOVE
+REPORT // 4,4,EAST
+```
 
 
 ## Tests
@@ -33,7 +47,7 @@ All tests can be run with npm:
 npm test
 ```
 
-**Note:** the tests use some UNIX commands, so they probably won't work on Windows
+**Note:** the e2e tests use some UNIX commands, so they probably won't work on Windows.
 
 ### e2e
 

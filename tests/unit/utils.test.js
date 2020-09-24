@@ -1,5 +1,5 @@
 const test = require('ava')
-const utils = require('../../utils.js')
+const utils = require('../../src/utils.js')
 
 test('isValidPlace returns true for 0,0', t => {
     const place = { x: 0, y: 0 }

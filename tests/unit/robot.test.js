@@ -7,7 +7,7 @@ const utilStub = {
     isValidPlace: sinon.fake(({x}) => x >= 0 && x < 5)
 }
 
-const Robot = proxyquire('../../robot.js', {
+const Robot = proxyquire('../../src/robot.js', {
     './utils': utilStub
 })
 
